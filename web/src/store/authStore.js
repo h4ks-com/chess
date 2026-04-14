@@ -6,6 +6,15 @@ const API_URL = "/api/auth";
 
 axios.defaults.withCredentials = true;
 
+const generateGuestId = () =>
+  "guest_" + Math.random().toString(36).substring(2, 10);
+
+const GUEST_NAMES = [
+  "Knight Rider", "Pawn Star", "Bishop Bash", "Rook Raider",
+  "Queen Bee", "King Pin", "Castle Crusher", "Check Mate",
+  "Dark Horse", "Blitz Kid", "Elo Hunter", "Tempo Thief",
+];
+
 export const useAuthStore = create(
   persist(
     (set) => ({
@@ -74,6 +83,21 @@ export const useAuthStore = create(
           set({ error: "Error logging out", isLoading: false });
           throw error;
         }
+      },
+
+      loginAsGuest: () => {
+        const guestName =
+          GUEST_NAMES[Math.floor(Math.random() * GUEST_NAMES.length)];
+        set({
+          user: {
+            _id: generateGuestId(),
+            name: guestName,
+            isGuest: true,
+          },
+          isAuthenticated: true,
+          isLoading: false,
+          error: null,
+        });
       },
 
       checkAuth: async () => {

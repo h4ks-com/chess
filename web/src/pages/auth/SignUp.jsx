@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 
 const SignUp = () => {
-  const { signup, error, isLoading: loading } = useAuthStore();
+  const { signup, loginAsGuest, error, isLoading: loading } = useAuthStore();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -109,6 +109,17 @@ const SignUp = () => {
             )}
           </button>
         </form>
+
+        <button
+          type="button"
+          onClick={() => {
+            loginAsGuest();
+            navigate("/");
+          }}
+          className="w-full mt-3 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-md focus:outline-none"
+        >
+          Play as Guest
+        </button>
 
         <div className="w-full flex items-center justify-between mt-3">
           Already have an account{" "}

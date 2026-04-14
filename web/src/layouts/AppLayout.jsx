@@ -1,15 +1,16 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import Header from "../components/shared/Header";
 import useLatency from "../utils/hooks/useLatency";
 
 const AppLayout = () => {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, loginAsGuest } = useAuthStore();
 
   useLatency();
 
   if (!isAuthenticated) {
-    return <Navigate to="/auth/sign-in" replace />;
+    loginAsGuest();
+    return null;
   }
 
   return (
